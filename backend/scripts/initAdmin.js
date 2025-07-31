@@ -1,14 +1,13 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const Farmer = require('../models/Farmer');
+const path = require('path');
+const Farmer = require(path.join(__dirname, '..', 'models', 'Farmer'));
 
 async function initializeAdmin() {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    console.log('Connecting to MongoDB...');
+    await mongoose.connect(process.env.MONGO_URI);
 
     // Check if admin already exists
     const adminExists = await Farmer.findOne({ email: process.env.ADMIN_EMAIL });
@@ -18,6 +17,7 @@ async function initializeAdmin() {
     }
 
     // Create admin account
+    console.log('Creating admin account...');
     const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
     const admin = await Farmer.create({
       name: 'System Admin',
@@ -29,6 +29,7 @@ async function initializeAdmin() {
     });
 
     console.log('Admin account created successfully');
+    await mongoose.connection.close();
     process.exit(0);
   } catch (error) {
     console.error('Error creating admin account:', error);

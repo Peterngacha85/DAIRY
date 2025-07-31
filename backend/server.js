@@ -31,9 +31,41 @@ app.get('/', (req, res) => {
 // Connect to MongoDB and start server
 const PORT = process.env.PORT || 5000;
 
+// Initialize admin user function
+const initializeAdmin = async () => {
+  try {
+    const Farmer = require('./models/Farmer');
+    const bcrypt = require('bcryptjs');
+    
+    const adminExists = await Farmer.findOne({ email: process.env.ADMIN_EMAIL });
+    if (!adminExists) {
+      const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
+      await Farmer.create({
+        name: 'System Admin',
+        email: process.env.ADMIN_EMAIL,
+        password: hashedPassword,
+        farmName: 'System',
+        location: 'System',
+        role: 'admin'
+      });
+      console.log('Admin account created successfully');
+    } else {
+      console.log('Admin account already exists');
+    }
+  } catch (error) {
+    console.error('Error initializing admin:', error);
+  }
+};
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('Connected to MongoDB successfully'))
+  .then(async () => {
+    console.log('Connected to MongoDB successfully');
+    await initializeAdmin();
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
   .catch(err => console.error('MongoDB connection error:', err));
   .then(() => {
     app.listen(PORT, () => {
