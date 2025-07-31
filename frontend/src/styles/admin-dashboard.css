@@ -1,0 +1,130 @@
+/* Admin Dashboard Styles */
+.admin-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.admin-action-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  color: #4a5568;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.admin-action-button:hover {
+  background-color: #f7fafc;
+  border-color: #cbd5e0;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+.tab-button {
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  color: #4a5568;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.tab-button.active {
+  color: #3182ce;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #3182ce;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.filter-button {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #4a5568;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-button.active {
+  background: #ebf8ff;
+  border-color: #90cdf4;
+  color: #2c5282;
+}
+
+.action-button.view {
+  background: #ebf8ff;
+  color: #2c5282;
+  border: 1px solid #90cdf4;
+}
+
+.action-button.view:hover {
+  background: #bee3f8;
+}
+
+.action-button.edit {
+  background: #faf5ff;
+  color: #553c9a;
+  border: 1px solid #d6bcfa;
+}
+
+.action-button.edit:hover {
+  background: #e9d8fd;
+}
+
+.status-badge.low {
+  background: #fff5f5;
+  color: #c53030;
+}
+
+.status-badge.good {
+  background: #f0fff4;
+  color: #276749;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-actions {
+    flex-wrap: wrap;
+  }
+
+  .admin-action-button {
+    width: calc(50% - 0.5rem);
+  }
+
+  .admin-tabs {
+    overflow-x: auto;
+    padding-bottom: 1rem;
+  }
+
+  .tab-button {
+    white-space: nowrap;
+  }
+}
