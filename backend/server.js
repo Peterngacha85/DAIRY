@@ -57,21 +57,20 @@ const initializeAdmin = async () => {
   }
 };
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
-  .then(async () => {
+// Connect to MongoDB and start server
+const startServer = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDB successfully');
     await initializeAdmin();
+    
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
-  })
-  .catch(err => console.error('MongoDB connection error:', err));
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
-  .catch((err) => {
+  } catch (err) {
     console.error('MongoDB connection error:', err);
-  });
+    process.exit(1);
+  }
+};
+
+startServer();
